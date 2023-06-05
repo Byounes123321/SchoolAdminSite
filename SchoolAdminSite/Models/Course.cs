@@ -27,4 +27,18 @@ namespace SchoolAdminSite.Models
         public virtual Teacher Teacher { get; set; }
         //Teachers can have many courses 
     }
+
+    public class CourseDto
+    {
+        public int CourseID { get; set; }
+        //Course ID
+        public string Subject { get; set; }
+        //Course Subject (Math, English, Science)
+        public DateTime Time { get; set; }
+        //Time of the course
+        public int RoomNum { get; set; }
+        //The room number for the course
+        public string TeacherLName { get; set; }
+        //Name of teacher teaching the course
+    }
 }
