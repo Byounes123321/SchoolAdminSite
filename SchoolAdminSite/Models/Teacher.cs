@@ -24,4 +24,17 @@ namespace SchoolAdminSite.Models
         //A teacher has many courses 
         public ICollection<Course> Courses;
     }
+    public class TeacherDto
+    {
+        public int TeacherId { get; set; }
+        //Primary Key
+        public string Fname { get; set; }
+        //Teacher First name    
+        public string Lname { get; set; }
+        //Teacher Last name
+        public DateTime HireDate { get; set; }
+        //Date teacher was hired
+        public decimal Salary { get; set; }
+        //Teacher Salary
+    }
 }
