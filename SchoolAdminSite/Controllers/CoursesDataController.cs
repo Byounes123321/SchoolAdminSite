@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Controllers;
 using System.Web.Http.Description;
 using System.Web.Management;
 using SchoolAdminSite.Models;
@@ -42,6 +43,37 @@ namespace SchoolAdminSite.Controllers
 
             return CourseDtos;
         }
+
+        /// <summary>
+        /// List all the courses that are tought by a specific teacher
+        /// </summary>
+        /// <param name="TeacherId"></param>
+        //GET: api/CoursesData/ListCoursesForTeacher/2
+        [ResponseType(typeof(Course))]
+        [HttpGet]
+        [Route("api/CoursesData/ListCoursesForTeacher/{teacherId}")]
+        public IHttpActionResult ListCoursesForTeacher(int TeacherId)
+        {
+            List<Course> Courses = db.courses.Where(c => c.TeacherID == TeacherId).ToList();
+
+            if (Courses.Count == 0)
+            {
+                return NotFound();
+            }
+            List<CourseDto> CourseDtos = new List<CourseDto>();
+
+
+            Courses.ForEach(c => CourseDtos.Add(new CourseDto()
+            {
+                CourseID = c.CourseID,
+                RoomNum = c.RoomNum,
+                Subject = c.Subject,
+                Time = c.Time,
+                TeacherLName = c.Teacher.Lname
+            }));
+            return Ok(CourseDtos);
+        }
+    
 
         /// <summary>
         /// Retrieves a specific course by its ID.
