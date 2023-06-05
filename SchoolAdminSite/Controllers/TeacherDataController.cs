@@ -41,6 +41,14 @@ namespace SchoolAdminSite.Controllers
             return TeacherDtos; 
         }
 
+
+        /// <summary>
+        /// Finds a teacher in the database by its id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// All the data on the teacher
+        /// </returns>
         // GET: api/TeacherData/FindAnimal/5
         [ResponseType(typeof(Teacher))]
         [HttpGet]
@@ -63,6 +71,15 @@ namespace SchoolAdminSite.Controllers
             return Ok(teacher);
         }
 
+
+        /// <summary>
+        /// Updates a teacher in the database through post method
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="teacher"></param>
+        /// <returns>
+        /// returns nothing - updates database
+        /// </returns>
         // POST: api/TeacherData/UpdateTeacher/5
         [ResponseType(typeof(void))]
         [HttpPost]
@@ -99,6 +116,14 @@ namespace SchoolAdminSite.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+
+        /// <summary>
+        /// Adds a new teacher to the database
+        /// </summary>
+        /// <param name="teacher"></param>
+        /// <returns>
+        /// Retruns okay(200) and the teacher data
+        /// </returns>
         // POST: api/TeacherData/AddTeacher
         [ResponseType(typeof(Teacher))]
         [HttpPost]
@@ -115,6 +140,14 @@ namespace SchoolAdminSite.Controllers
             return CreatedAtRoute("DefaultApi", new { id = teacher.TeacherId }, teacher);
         }
 
+
+        /// <summary>
+        /// Removes a teacher from the database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>
+        /// OK(200)
+        /// </returns>
         // POST: api/TeacherData/DeleteTeacher/5
         [ResponseType(typeof(Teacher))]
         [HttpPost]
