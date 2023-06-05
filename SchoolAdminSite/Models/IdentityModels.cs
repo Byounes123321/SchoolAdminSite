@@ -25,6 +25,12 @@ namespace SchoolAdminSite.Models
         {
         }
 
+        //Add entites to DB
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<Course> courses { get; set; }
+        public DbSet<Student> students { get; set; }
+        public DbSet<StudentXCourse> studentXCourses { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
