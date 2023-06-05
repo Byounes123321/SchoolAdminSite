@@ -185,6 +185,7 @@
     <Compile Include="Controllers\CoursesDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\StudentsDataController.cs" />
     <Compile Include="Controllers\TeacherDataController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -219,6 +220,7 @@
     <Content Include="Content\Site.css" />
     <None Include="JSONData\Teacher.json" />
     <None Include="JSONData\Course.json" />
+    <None Include="JSONData\Student.json" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
