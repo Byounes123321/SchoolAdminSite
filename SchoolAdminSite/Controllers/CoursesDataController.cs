@@ -73,7 +73,46 @@ namespace SchoolAdminSite.Controllers
             }));
             return Ok(CourseDtos);
         }
-    
+
+        /// <summary>
+        /// List all the courses that a student has
+        /// </summary>
+        /// <param name="StudentID"></param>
+        //GET: api/CoursesData/ListCoursesForStudent/2
+        [ResponseType(typeof(Course))]
+        [HttpGet]
+        [Route("api/CoursesData/ListCoursesForStudent/{StudentID}")]
+        public IHttpActionResult ListCoursesForStudent(int StudentID)
+        {
+
+            List<Course> Courses = db.courses
+                .Join(db.studentXCourses,
+                    c => c.CourseID,
+                    sc => sc.CourseID,
+                    (c, sc) => new { Course = c, StudentXCourse = sc })
+                .Where(joinResult => joinResult.StudentXCourse.StudentID == StudentID)
+                .Select(joinResult => joinResult.Course)
+                .ToList();
+
+
+
+            if (Courses.Count == 0)
+            {
+                return NotFound();
+            }
+            List<CourseDto> CourseDtos = new List<CourseDto>();
+
+
+            Courses.ForEach(c => CourseDtos.Add(new CourseDto()
+            {
+                CourseID = c.CourseID,
+                RoomNum = c.RoomNum,
+                Subject = c.Subject,
+                Time = c.Time,
+                TeacherLName = c.Teacher.Lname
+            }));
+            return Ok(CourseDtos);
+        }
 
         /// <summary>
         /// Retrieves a specific course by its ID.
