@@ -30,6 +30,37 @@ namespace SchoolAdminSite.Controllers
             return db.students;
         }
 
+
+        /// <summary>
+        /// Returns a list of Students who are registerd to a specific course
+        /// </summary>
+        /// <param name="CourseId">The ID of the Course to retrieve.</param>
+        /// <returns>a list of Student objects representing the students in a course.</returns>
+        // GET: api/StudentsData/ListStudentsForCourse/{CourseId}
+        [ResponseType(typeof(Student))]
+        [HttpGet]
+        [Route("api/StudentsData/ListStudentsForCourse/{CourseId}")]
+        public IHttpActionResult ListStudentsForCourse(int CourseId)
+        {
+            List<Student> students = db.students
+                     .Join(db.studentXCourses,
+                         s => s.StudentID,
+                         sc => sc.StudentID,
+                         (c, sc) => new { Student = c, StudentXCourse = sc })
+                     .Where(joinResult => joinResult.StudentXCourse.CourseID == CourseId)
+                     .Select(joinResult => joinResult.Student)
+                     .ToList();
+
+
+
+            if (students.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(students);
+        }
+
         /// <summary>
         /// Retrieves a specific student by their ID.
         /// </summary>
