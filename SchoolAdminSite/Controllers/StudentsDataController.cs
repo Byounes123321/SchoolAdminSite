@@ -134,6 +134,76 @@ namespace SchoolAdminSite.Controllers
             return Ok(student);
         }
 
+        /// <summary>
+        /// Associate a student with a Course (populates the bridging table)
+        /// </summary>
+        /// <param name="StudentID">The ID of the student.</param>
+        /// <param name="CourseId">The ID of the course.</param>
+        /// <returns>The HTTP result indicating the success of the operation.</returns>
+        // POST: api/StudentsData/RegisterForClass/{StudentID}/{CourseId}
+        [ResponseType(typeof(StudentXCourse))]
+        [HttpPost]
+        [Route("api/StudentsData/RegisterForClass/{StudentID}/{CourseId}")]
+        public IHttpActionResult RegisterForClass(int StudentID, int CourseId)
+        {
+            Course course = db.courses.Find(CourseId);
+            Student student = db.students.Find(StudentID);
+
+            if (course == null || student == null)
+            {
+                return NotFound();
+            }
+
+            StudentXCourse studentXCourse = new StudentXCourse()
+            {
+                StudentID = student.StudentID,
+                CourseID = course.CourseID
+            };
+
+            db.studentXCourses.Add(studentXCourse);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+
+
+        /// <summary>
+        /// Unassociate a student with a Course (Removes entry from the bridging table)
+        /// </summary>
+        /// <param name="StudentID">The ID of the student.</param>
+        /// <param name="CourseId">The ID of the course.</param>
+        /// <returns>The HTTP result indicating the success of the operation.</returns>
+        // POST: api/StudentsData/DropAClass/{StudentID}/{CourseId}
+        [ResponseType(typeof(StudentXCourse))]
+        [HttpPost]
+        [Route("api/StudentsData/DropAClass/{StudentID}/{CourseId}")]
+        public IHttpActionResult DropAClass(int StudentID, int CourseId)
+        {
+            Course course = db.courses.Find(CourseId);
+            Student student = db.students.Find(StudentID);
+
+            if (course == null || student == null)
+            {
+                return NotFound();
+            }
+
+            StudentXCourse studentXCourse = db.studentXCourses
+                .FirstOrDefault(sxc => sxc.StudentID == student.StudentID && sxc.CourseID == course.CourseID);
+
+            if (studentXCourse == null)
+            {
+                return NotFound();
+            }
+
+            db.studentXCourses.Remove(studentXCourse);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
+
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
